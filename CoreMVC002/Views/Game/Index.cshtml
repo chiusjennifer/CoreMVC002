@@ -1,0 +1,41 @@
+﻿@model CoreMVC002.Models.XAXBEngine
+
+<h2>1A2B 猜數字遊戲</h2>
+
+@using (Html.BeginForm("Guess", "Game", FormMethod.Post))
+
+{
+    <label for="guess">請輸入你的猜測：</label>
+    <input type="text" id="guess" name="Guess" value="@Model.Guess" maxlength="4" required />
+    <input type="submit" value="猜！" />
+}
+
+@if (!string.IsNullOrEmpty(Model.Result))
+
+{
+    <p>猜測結果：@Model.Result</p>
+}
+
+@if (ViewBag.GameWon != null && ViewBag.GameWon == true)
+
+{
+    <h3>恭喜你！你猜對了！</h3>
+    <form asp-action="Restart" method="get">
+        <button type="submit">重新開始遊戲</button>
+    </form>
+}
+
+@if (Model.GuessHistory != null && Model.GuessHistory.Count > 0)
+
+{
+    <h3>猜測歷史</h3>
+    <ul>
+        @foreach (var entry in Model.GuessHistory)
+
+        {
+            <li>@entry</li>
+        }
+    </ul>
+}
+
+<p>累積猜測次數: @Model.AttemptCount</p>
